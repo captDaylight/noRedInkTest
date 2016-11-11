@@ -1,3 +1,5 @@
+import { findIndex } from 'lodash';
+
 const defaultState = {
 	tests: [
 		{
@@ -41,12 +43,17 @@ export default function (state = defaultState, action) {
 				tests: state.tests.map(test => ({ ...test, status: 2 }))
 			};
 
-		// case 'SET_TEST_STATUS':
-		// 	const newTests
-		// 	return {
-		// 		...state,
-		// 		tests: [...tests]
-		// 	}
+		case 'SET_TEST_STATUS':
+			const newTests = [...state.tests];
+
+			const idx = newTests.findIndex(test => test.id === action.id);
+
+			newTests[idx] = { ...newTests[idx], status: action.passed ? 3 : 4 };
+
+			return {
+				...state,
+				tests: newTests
+			}
 
 		default:
 			return state;

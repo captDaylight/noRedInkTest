@@ -4,6 +4,10 @@ import { connect } from 'react-redux';
 import { startTests as startTestsAction } from './actions';
 import { groupBy } from 'lodash';
 
+function Test(props) {
+  return <li>{props.description}</li>;
+}
+
 class Tester extends Component {
 	render() {
 		const { tests, actions: { startTests } } = this.props;
@@ -12,68 +16,46 @@ class Tester extends Component {
 
 		return (
 			<div>
-				<button onClick={startTests}>Start Tests</button>
+				<button onClick={() => startTests(tests)}>Start Tests</button>
+
+				<h1>Tests Ready!</h1>
 				{
 					'1' in testGroups && (
 						<ul>
-							<li><h1>Tests Ready!</h1></li>
-							{
-								 testGroups['1'].map((test, i) => {
-									return (
-										<li key={i}>{test.description} {test.status}</li>
-									)
-								})
-							}
+							{testGroups['1'].map((t, i) => <Test description={t.description} />)}
 						</ul>
 					)
 				}
 
+				<h1>Tests Running</h1>
 				{
 					'2' in testGroups && (
-
-						<ul>
-							<li><h1>Tests Running</h1></li>
-							{
-								 testGroups['2'].map((test, i) => {
-									return (
-										<li key={i}>{test.description} {test.status}</li>
-									)
-								})
-							}
-						</ul>
+						<div>
+							<ul>
+								{testGroups['2'].map((t, i) => <Test description={t.description} />)}
+							</ul>
+							<img src="https://thomas.vanhoutte.be/miniblog/wp-content/uploads/light_blue_material_design_loading.gif"/>
+						</div>
 					)
 				}
 
+				<h1>Passed</h1>
 				{
 					'3' in testGroups && (
 						<ul>
-							<li><h1>Tests Running</h1></li>
-							{
-								 testGroups['3'].map((test, i) => {
-									return (
-										<li key={i}>{test.description} {test.status}</li>
-									)
-								})
-							}
+							{testGroups['3'].map((t, i) => <Test description={t.description} />)}
 						</ul>
 					)
 				}
 
+				<h1>Failed</h1>
 				{
 					'4' in testGroups && (
 						<ul>
-							<li><h1>Tests Failed</h1></li>
-							{
-								 testGroups['4'].map((test, i) => {
-									return (
-										<li key={i}>{test.description} {test.status}</li>
-									)
-								})
-							}
+							{testGroups['4'].map((t, i) => <Test description={t.description} />)}
 						</ul>
 					)
 				}
-
 
 			</div>
 		);
